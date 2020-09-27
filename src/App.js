@@ -16,7 +16,7 @@ import "leaflet/dist/leaflet.css";
 
 function App() {
   const [countries, setCountries] = useState([]);
-  const [country, setCountry] = useState("worldwide");
+  const [country, setCountry] = useState("Worldwide");
   const [countryInfo, setCountryInfo] = useState({});
   const [tableData, setTableData] = useState([]);
   const [mapCenter, setMapCenter] = useState({
@@ -24,6 +24,7 @@ function App() {
     lng: 64.203396,
   });
   const [mapZoom, setMapZoom] = useState(3);
+  const [mapCountries, setMapCountries] = useState([]);
 
   useEffect(() => {
     fetch("https://disease.sh/v3/covid-19/all")
@@ -45,6 +46,7 @@ function App() {
 
           const sortedData = sortData(data);
           setTableData(sortedData);
+          setMapCountries(data);
           setCountries(countries);
         });
     };
@@ -102,7 +104,7 @@ function App() {
             total={countryInfo.deaths}
           />
         </div>
-        <Map center={mapCenter} zoom={mapZoom} />
+        <Map countries={mapCountries} center={mapCenter} zoom={mapZoom} />
       </div>
 
       <Card className="app__right">
